@@ -25,6 +25,13 @@ exports.handler = async (event) => {
     case "/calculator-api/subtract":
       func = Calculator.subtract;
       break;
+    case "/calculator-api/multiply":
+      func = Calculator.multiply;
+      break;
+    case "/calculator-api/divide":
+      func = Calculator.divide;
+      break;
+
     default:
       return {
         statusCode: 502,
