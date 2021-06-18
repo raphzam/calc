@@ -30,32 +30,32 @@ exports.handler = async (event) => {
         statusCode: 502,
         body: "This path is unsupported by the API.",
       };
-      break;
   }
 
+  var params = null;
   switch (event.httpMethod) {
     case "GET":
-      //write some logic
-      //responseMessage = "HTTP METHOD IS GET";
-      const params = validateParams(event.queryStringParameters);
-
-      if (params.error) {
-        responseMessage = params.error;
-      } else {
-        responseMessage = `${params.x} + ${params.y} = ${func(
-          params.x,
-          params.y
-        )}`;
-      }
-
+      params = validateParams(event.queryStringParameters);
       break;
+
     case "POST":
-      responseMessage = "HTTP METHOD IS POST";
+      params = validateParams(JSON.parse(event.body));
       break;
+
     default:
       //no-op
       responseMessage = "HTTP METHOD IS NOT SUPPORTED";
       break;
+  }
+
+  if (params != null) {
+    if (params.error) {
+      responseMessage = params.error;
+    } else {
+      responseMessage = {
+        value: func(params.x, params.y),
+      };
+    }
   }
 
   // TODO implement
